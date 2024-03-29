@@ -1,0 +1,40 @@
+<apex:page controller="InstituteController">
+    
+    <apex:form id="form">
+        <div>
+            <label>Select Institute</label>
+            <apex:selectList value="{!selectedInstituteId}" size="1">
+                <apex:selectOption itemLabel="Select Institute" itemValue=""/>
+                <apex:selectOptions value="{!instituteOptions}"/>
+                <apex:actionSupport event="onchange" action="{!getMentors}" reRender="mentorTable" />
+            </apex:selectList>
+        </div>
+        
+        <apex:outputPanel id="mentorTable">
+            <apex:dataTable value="{!mentors}" var="mentor" border="1" rendered="{!showTable}">
+                
+                <apex:column headerValue="Mentor Name">
+                    
+                    <apex:commandLink action="{!fetchStudents}" reRender="studentTablePanel" value="{!mentor.Name} ">
+                        <apex:param name="mentorId" value="{!mentor.Id}" assignTo="{!selectedMentorId}" ></apex:param>
+                    </apex:commandLink>
+                    
+                    <apex:outputPanel id="studentTablePanel" >
+                        <apex:dataTable value="{!students}" var="student" border="1" rendered="{!showStudentTable}">
+                            <apex:column headerValue="Name" value="{!student.Name}"/>
+                            <apex:column headerValue="City" value="{!student.City__c}"/>
+                            <apex:column headerValue="State" value="{!student.State__c}"/>
+                            <apex:actionSupport event="onclick" action="{!updateSelectedMentor}" reRender="mentorTable"/>
+                        </apex:dataTable>
+                    </apex:outputPanel>
+                    
+                </apex:column>
+                
+                <apex:column headerValue="Designation" value="{!mentor.Designation__c}">
+                    </apex:column>
+                
+                
+            </apex:dataTable>
+        </apex:outputPanel>
+    </apex:form>
+</apex:page>
