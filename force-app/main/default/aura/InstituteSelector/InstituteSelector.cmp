@@ -1,0 +1,65 @@
+<aura:component controller="InstituteControllerr" implements="flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+    
+    
+    <aura:attribute name="instituteOptions" type="Institute__c[]" />
+    <aura:attribute name="selectedInstitute" type="String" />
+    
+    <aura:attribute name="mentors" type="Mentor__c[]" />
+    <aura:attribute name="students" type="Student__c[]" />
+    
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    <aura:handler name="change" value="{!v.selectedInstitute}" action="{!c.getRelatedMentors}" />
+    
+         
+    <lightning:select name="instituteSelector" label="" aura:id="instituteSelector" value="{!v.selectedInstitute}" >
+        <option value="">-- Select Institute --</option>
+        <aura:iteration items="{!v.instituteOptions}" var="institute">
+            <option value="{!institute.Id}" label="{!institute.Name}" >{!institute.Name}</option>
+        </aura:iteration>
+    </lightning:select>
+    
+    
+     <aura:if isTrue="{!not(empty(v.mentors)) &amp;&amp; not(empty(v.selectedInstitute))}">
+        <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+            <thead>
+                <tr>
+                    <th>Mentor Name</th>
+                    <th>Designation</th>
+                </tr> 
+            </thead>
+            <tbody>
+                <aura:iteration items="{!v.mentors}" var="mentor">
+                    <tr>
+                       <td> <a href="javascript:void(0);" data-id="{!mentor.Id}" onclick="{!c.getRelatedStudents}">{!mentor.Name}</a> </td>
+                       <td>{!mentor.Designation__c}</td>
+                    </tr>
+                </aura:iteration>
+            </tbody>
+        </table>
+    </aura:if>
+    
+    
+    <aura:if isTrue="{!not(empty(v.students)) &amp;&amp; not(empty(v.selectedInstitute))}">
+        <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+            <thead>
+                <tr>
+                    <th>Student Name</th>
+                    <th>City</th>
+                    <th>State</th>
+                </tr>
+            </thead>
+            <tbody>
+                <aura:iteration items="{!v.students}" var="student">
+                    <tr>
+                        <td>{!student.Name}</td>
+                        <td>{!student.City__c}</td>
+                        <td>{!student.State__c}</td>
+                    </tr>
+                </aura:iteration>
+            </tbody>
+        </table>
+    </aura:if>
+    
+    
+</aura:component>
