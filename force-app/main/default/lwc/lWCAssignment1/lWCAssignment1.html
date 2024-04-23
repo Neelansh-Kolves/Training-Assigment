@@ -1,0 +1,54 @@
+<template>
+<lightning-card>
+    <lightning-combobox
+    name="instituteSelector"
+    label="Select Institute"
+    value={selectedInstitute}
+    options={instituteOptions}
+    onchange={handleInstituteChange}>
+</lightning-combobox>
+
+<template if:true={selectedInstitute}>
+    <table if:true={mentors} class="slds-table slds-table_bordered slds-table_cell-buffer">
+        <thead>
+            <tr>
+                <th>Mentor Name</th>
+                <th>Designation</th>
+            </tr>
+        </thead>
+        <tbody>
+            <template for:each={mentors} for:item="mentor">
+                <tr key={mentor.Id}>
+                    <td>
+                    <a href="javascript:void(0);" onclick={handleMentorSelection} data-id={mentor.Id}>{mentor.Name}</a>
+                    </td>
+                    <td>{mentor.Designation__c}</td>
+                </tr>
+            </template>
+        </tbody>
+    </table>
+</template>
+
+<template if:true={students}>
+    <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+        <thead>
+            <tr>
+                <th>Student Name</th>
+                <th>City</th>
+                <th>State</th>
+            </tr>
+        </thead>
+        <tbody>
+            <template for:each={students} for:item="student">
+                <tr key={student.Id}>
+                    <td>{student.Name}</td>
+                    <td>{student.City__c}</td>
+                    <td>{student.State__c}</td>
+                </tr>
+            </template>
+        </tbody>
+    </table>
+</template>
+
+</lightning-card>
+</template>
