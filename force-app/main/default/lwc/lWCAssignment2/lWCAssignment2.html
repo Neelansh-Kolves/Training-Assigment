@@ -1,0 +1,45 @@
+<template>
+
+    <lightning-card> 
+        <lightning-combobox
+            name="objectSelector"
+            label="Select an sObject"
+            placeholder="-- Select sObject --"
+            options={objectOptions}
+            value={selectedObject}
+            onchange={handleObjectChange}>
+        </lightning-combobox>
+
+        <template if:true={fieldOptions}>
+            <lightning-dual-listbox name="fieldsSelector"
+                                    label="Select Fields"
+                                    source-label="Available Fields"
+                                    selected-label="Selected Fields"
+                                    options={fieldOptions}
+                                    value={selectedFields}
+                                    onchange={handleFieldChange}>
+            </lightning-dual-listbox>
+        </template>
+
+       <template if:true={selectedFields}>
+            <div align="center">
+                <template if:true={generateButtonVisible}>
+                    <lightning-button label="Generate Query" onclick={generateQuery} class="slds-text-align_center"></lightning-button>
+                </template>
+            </div>
+        </template>
+         
+       
+    <template if:true={generateButtonVisible}>
+       <template if:true={query}>
+        
+        <div class="slds-box slds-theme_default slds-var-m-top_medium">
+            <p>{query}</p>
+        </div>
+        </template>
+    </template>
+
+
+    </lightning-card>
+
+</template>
